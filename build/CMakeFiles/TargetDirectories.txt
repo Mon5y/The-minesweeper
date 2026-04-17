@@ -1,0 +1,4 @@
+C:/Users/grech/Desktop/_Game_/build/CMakeFiles/tmxlite.dir
+C:/Users/grech/Desktop/_Game_/build/CMakeFiles/Game.dir
+C:/Users/grech/Desktop/_Game_/build/CMakeFiles/edit_cache.dir
+C:/Users/grech/Desktop/_Game_/build/CMakeFiles/rebuild_cache.dir

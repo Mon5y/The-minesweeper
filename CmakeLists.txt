@@ -1,0 +1,134 @@
+cmake_minimum_required(VERSION 3.15)
+project(_Game_)
+
+# Явно указываем MinGW
+set(CMAKE_C_COMPILER gcc)
+set(CMAKE_CXX_COMPILER g++)
+set(CMAKE_MAKE_PROGRAM mingw32-make)
+
+# Настройка стандарта C++
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Пути к библиотекам
+set(SFML_ROOT "${CMAKE_SOURCE_DIR}/libs/SFML-2.5.1")
+set(SFML_INCLUDE_DIR "${SFML_ROOT}/include")
+set(SFML_LIBRARY_DIR "${SFML_ROOT}/lib")
+
+set(TMXLITE_ROOT "${CMAKE_SOURCE_DIR}/libs/tmxlite")
+set(TMXLITE_INCLUDE_DIR "${TMXLITE_ROOT}/include")
+set(TMXLITE_SOURCE_DIR "${TMXLITE_ROOT}/src")
+
+# Сообщаем о путях
+message(STATUS "Using SFML from: ${SFML_ROOT}")
+message(STATUS "SFML libraries: ${SFML_LIBRARY_DIR}")
+
+# Файлы проекта
+file(GLOB_RECURSE PROJECT_SOURCES "src/*.cpp")
+
+# Файлы tmxlite
+file(GLOB TMXLITE_SOURCES
+    "${TMXLITE_SOURCE_DIR}/*.cpp"
+    "${TMXLITE_SOURCE_DIR}/detail/pugixml.cpp"
+)
+file(GLOB MINIZ_SOURCES "${TMXLITE_SOURCE_DIR}/miniz.c")
+
+# Создаем библиотеку tmxlite
+add_library(tmxlite STATIC ${TMXLITE_SOURCES} ${MINIZ_SOURCES})
+
+# Настройка tmxlite
+target_include_directories(tmxlite PUBLIC
+    ${TMXLITE_INCLUDE_DIR}
+    ${TMXLITE_SOURCE_DIR}
+)
+
+# Для tmxlite убираем дублирующие макроопределения из miniz.c
+target_compile_definitions(tmxlite PRIVATE
+    TINYXML2_IMPORT
+)
+
+# Основной исполняемый файл
+add_executable(Game ${PROJECT_SOURCES})
+
+# Включение заголовков
+target_include_directories(Game PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${SFML_INCLUDE_DIR}
+    ${TMXLITE_INCLUDE_DIR}
+)
+
+# Линковка с tmxlite
+target_link_libraries(Game PRIVATE tmxlite)
+
+# ЛИНКОВКА SFML - ИСПОЛЬЗУЕМ СТАТИЧЕСКИЕ БИБЛИОТЕКИ (-s)
+# Для Debug конфигурации используем -s-d версии
+target_link_libraries(Game PRIVATE
+    "${SFML_LIBRARY_DIR}/libsfml-graphics-s-d.a"
+    "${SFML_LIBRARY_DIR}/libsfml-window-s-d.a"
+    "${SFML_LIBRARY_DIR}/libsfml-system-s-d.a"
+    "${SFML_LIBRARY_DIR}/libsfml-audio-s-d.a"   # добавлено для звука
+    "${SFML_LIBRARY_DIR}/libsfml-main-d.a"
+)
+
+# Дополнительные библиотеки SFML (зависимости)
+target_link_libraries(Game PRIVATE
+    "${SFML_LIBRARY_DIR}/libfreetype.a"
+    "${SFML_LIBRARY_DIR}/libFLAC.a"
+    "${SFML_LIBRARY_DIR}/libvorbisenc.a"
+    "${SFML_LIBRARY_DIR}/libvorbisfile.a"
+    "${SFML_LIBRARY_DIR}/libvorbis.a"
+    "${SFML_LIBRARY_DIR}/libogg.a"
+    "${SFML_LIBRARY_DIR}/libopenal32.a"
+)
+
+# Системные библиотеки для Windows
+if(WIN32)
+    target_link_libraries(Game PRIVATE
+        opengl32
+        winmm
+        gdi32
+        ws2_32
+    )
+endif()
+
+# Копирование папки assets
+if(EXISTS "${CMAKE_SOURCE_DIR}/assets")
+    add_custom_command(TARGET Game POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:Game>/assets"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/assets"
+            "$<TARGET_FILE_DIR:Game>/assets"
+        COMMENT "Copying assets"
+    )
+endif()
+
+# Определение для статической линковки SFML
+target_compile_definitions(Game PRIVATE
+    SFML_STATIC
+)
+
+# Отключение предупреждений для MinGW
+if(MINGW)
+    # Для Game (C++)
+    target_compile_options(Game PRIVATE
+        -Wno-unused-variable
+        -Wno-unused-parameter
+        -Wno-sign-compare
+        -Wno-reorder
+        -Wno-maybe-uninitialized
+    )
+    
+    # Для tmxlite
+    target_compile_options(tmxlite PRIVATE
+        -Wno-unused-variable
+        -Wno-unused-parameter
+        -Wno-sign-compare
+        -Wno-reorder
+    )
+    
+    # Для miniz.c (C файл) не применяем флаги C++
+    set_source_files_properties(${MINIZ_SOURCES} PROPERTIES
+        COMPILE_FLAGS "-Wno-reorder -Wno-unused-but-set-variable"
+    )
+endif()

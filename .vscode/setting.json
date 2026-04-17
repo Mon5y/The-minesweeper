@@ -1,0 +1,10 @@
+{
+    "cmake.configureSettings": {
+        "CMAKE_MAKE_PROGRAM": "ninja.exe",
+        "CMAKE_C_COMPILER": "cl.exe",
+        "CMAKE_CXX_COMPILER": "cl.exe"
+    },
+    "cmake.preferredGenerators": ["Ninja"],
+    "cmake.generator": "Ninja",
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+}
