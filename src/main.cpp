@@ -77,15 +77,32 @@ public:
                 board[randY][randX].setMine();
                 placedmines++;
             }
-            for(int dx = -1; dx <=1; ++dx)
+        }
+    }
+private:
+    void countNeighborMines()
+    {
+        for(int  y = 0;y<height; ++y)
+        {
+            for(int x = 0;x<width;++x)
             {
-                for(int dy = -1; dy <=1;++dy)
+                if(board[y][x].hasMine()) continue;
+                int mineAround = 0;
+                for(int dx = -1; dx<=1;++dx)
                 {
-                    if(dx == 0 && dy == 0)
+                    for(int dy = -1;dy<=1;++dy)
                     {
-                        if(valid(NeighborX,NeighborY))
+                        if(dx == 0 && dy == 0) continue;
+                        int neighborX = x + dx;
+                        int neighborY = y + dy;
+
+                        if(valid(neighborX,neighborY) && board[neighborY][neighborX].hasMine())
+                        {
+                            mineAround ++;
+                        }
                     }
                 }
+                board[y][x].setNeighborMines(mineAround);
             }
         }
     }
