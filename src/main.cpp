@@ -37,15 +37,17 @@ class GameBoard
 private:
     int width;
     int height;
+    int mineCount;
     std::vector<std::vector<Cell>> board;
 public:
-    GameBoard(int w, int h)
+    GameBoard(int w, int h, int mines)
     {
         width = w;
         height = h;
+        mines = mineCount;
 
         board.resize(height);
-        for(int i = 0;i<width;++i)
+        for(int i = 0;i<height;++i)
         {
             board[i].resize(width);
         }
