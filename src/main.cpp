@@ -40,14 +40,8 @@ private:
 public:
     bool valid(int x,int y)
     {
-        if(x>width){
-            return 1;
-        }
-        else if(y>height)
-        {
-            return 1;
-        }
-        else return 0;
+     if((x>width) && (y>height)) return 0;
+        else return 1;
     }
 };
 
