@@ -43,6 +43,12 @@ public:
     {
         width = w;
         height = h;
+
+        board.resize(height);
+        for(int i = 0;i<width;++i)
+        {
+            board[i].resize(width);
+        }
     }
     bool valid (int x, int y)
     {
