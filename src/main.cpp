@@ -38,10 +38,16 @@ private:
     int width;
     int height;
 public:
-    bool valid(int x,int y) const
+    GameBoard(int w, int h)
     {
-     if((x>width) && (y>height)) return 0;
-        else return 1;
+        width = w;
+        height = h;
+    }
+    bool valid (int x, int y)
+    {
+        if((x>width)||(y>height)) return 0;
+        else if((x<0)||(y<0)) return 0;
+            else return 1;
     }
 };
 
