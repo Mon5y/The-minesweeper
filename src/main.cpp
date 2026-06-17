@@ -37,6 +37,7 @@ class GameBoard
 private:
     int width;
     int height;
+    std::vector<std::vector<Cell>> board;
 public:
     GameBoard(int w, int h)
     {
@@ -45,9 +46,9 @@ public:
     }
     bool valid (int x, int y)
     {
-        if((x>width)||(y>height)) return 0;
-        else if((x<0)||(y<0)) return 0;
-            else return 1;
+        if((x>=width)||(y>=height)) return 0;
+            else if((x<0)||(y<0)) return 0;
+                 else return 1;
     }
 };
 
