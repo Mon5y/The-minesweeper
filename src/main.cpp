@@ -62,16 +62,29 @@ public:
 public:
     void generateBoard(int StartX,int StartY)
     {
-        int randX = rand() % width;
-        int randY = rand() % height;
-
-        for(int i = 0;i<=width;++i)
+        int placedmines = 0;
+        while(placedmines < mineCount)
         {
-            for(int j = 0;j<=height;++j)
+            int randX = rand() % width;
+            int randY = rand() % height;
+
+            if((randX == StartX) && (randY == StartY))
             {
-                if((randX != StartX) && (randY != StartY))
+                continue;
+            }
+            if(!board[randY][randX].hasMine())
+            {
+                board[randY][randX].setMine();
+                placedmines++;
+            }
+            for(int dx = -1; dx <=1; ++dx)
+            {
+                for(int dy = -1; dy <=1;++dy)
                 {
-                    // генерация клеток
+                    if(dx == 0 && dy == 0)
+                    {
+                        if(valid(NeighborX,NeighborY))
+                    }
                 }
             }
         }
