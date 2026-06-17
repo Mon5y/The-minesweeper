@@ -38,7 +38,7 @@ private:
     int width;
     int height;
 public:
-    bool valid(int x,int y)
+    bool valid(int x,int y) const
     {
      if((x>width) && (y>height)) return 0;
         else return 1;
