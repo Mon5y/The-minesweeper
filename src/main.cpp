@@ -35,14 +35,19 @@ public:
 class GameBoard
 {
 private:
-    int Wight;
-    int Height;
-
-    std::vector<std::vector<Cell>> board;
-    board.resize(Height);
-    for (int i = 0;i<Wight;++i)
+    int width;
+    int height;
+public:
+    bool valid(int x,int y)
     {
-        board[i].resize(Wight);
+        if(x>width){
+            return 1;
+        }
+        else if(y>height)
+        {
+            return 1;
+        }
+        else return 0;
     }
 };
 
