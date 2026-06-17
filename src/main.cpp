@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <cstdint>
 #include <vector>
+#include <random>
 
 
 class Cell
@@ -44,7 +45,7 @@ public:
     {
         width = w;
         height = h;
-        mines = mineCount;
+        mineCount = mines;
 
         board.resize(height);
         for(int i = 0;i<height;++i)
@@ -58,8 +59,24 @@ public:
             else if((x<0)||(y<0)) return 0;
                  else return 1;
     }
-};
+public:
+    void generateBoard(int StartX,int StartY)
+    {
+        int randX = rand() % width;
+        int randY = rand() % height;
 
+        for(int i = 0;i<=width;++i)
+        {
+            for(int j = 0;j<=height;++j)
+            {
+                if((randX != StartX) && (randY != StartY))
+                {
+                    // генерация клеток
+                }
+            }
+        }
+    }
+};
 
 int main()
 {
