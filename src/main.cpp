@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <cstdint>
-#include <vector>
+#include "include/Vector2f.h"
 #include <random>
 
 
@@ -143,12 +143,62 @@ public:
     }
 };
 
-int main()
+class Board
+{
+private:
+    int width,heiht;
+    float cellSize;
+    std::Vector2f offset;
+public:
+    board(int w,int h,float cellSize,float offset)
+    {
+        width = w;heiht = h; cellSize = 30.f;offset = 0.5f;
+    }
+    void draw(sf::RectangleWindow& window, const GameBoard& gameboard)
+    {
+        for(int y = 0;y<heiht;++y)
+        {
+            for(int x = 0;x< width;++x)
+            {
+                float PosX = offset + x*cellSize;
+                float PosY = offset + y*sellSize;
+
+                sf::RectangleShape cell({cellSize - 1.f,cellSize - 1.f});
+                cell.setPosition(PosX,PosY);
+
+                Cell::state  = gameboard.getBoard.getCellState(x,y);
+                if(state = cell::Hidden)
+                {
+                    cell.setFillColor(sf::color(100,100,100))
+                } else if (state == cell::Flagged)
+                {
+                    cell.setFillColor(sf::color(200,150,50));
+                }
+                else
+                {
+                    cell.setFillColor(sf::color(200,200,200))
+                }
+            }
+            window.draw(cell);
+            }
+        }
+    
+
+};
+
+	int main()
 {
     const int weight = 1600;
     const int hight = 900;
-    sf::RenderWindow window({weight,hight},"minesweeper");
-
+    sf::RenderWindow window({weight, hight}, "Minesweeper");
+    
+    // Создаем игровое поле
+    GameBoard game(30, 20, 99); // 30x20 с 99 минами
+    game.generateBoard(0, 0);
+    
+    // Создаем доску для отрисовки
+    Board board(30, 20, 30.f, 20.f, 20.f);
+    
     while(window.isOpen())
     {
         sf::Event event;
@@ -157,9 +207,28 @@ int main()
             {
                 window.close();
             }
+            else if(event.type == sf::Event::MouseButtonPressed)
+            {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                sf::Vector2i cell = board.getCellFromMouse(mousePos.x, mousePos.y);
+                
+                if(cell.x >= 0 && cell.y >= 0)
+                {
+                    if(event.mouseButton.button == sf::Mouse::Left)
+                    {
+                        game.openCell(cell.x, cell.y);
+                    }
+                    else if(event.mouseButton.button == sf::Mouse::Right)
+                    {
+                        game.toggleFlag(cell.x, cell.y);
+                    }
+                }
+            }
         }
-        window.clear();
+        
+        window.clear(sf::Color::White);
+        board.draw(window, game);
         window.display();
     }
-
+    return 0;
 }
