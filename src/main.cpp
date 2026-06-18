@@ -79,6 +79,7 @@ public:
             }
         }
     }
+    
 private:
     void countNeighborMines()
     {
@@ -107,28 +108,37 @@ private:
         }
     }
 public:
-    void CaseOpen(int x, int y)
-    {
-        if(valid(x,y))
-        {
-            if(!board[x][y].hasMine())
-            {
-                while((board[x][y].getState() == Cell::Flagged) || (board[x][y].getState() == Cell::Opened)) continue;
-                if(getNeighborCount()>0) board[x][y].open();
-                else if(getNeighborCount() == 0)
-                {
-                    board[x][y].open();
-                    for(int dx = -1;dx<width;++dx)
-                    {
-                        for(int dy = -1;dy<height;++dy)
-                        {
-                            openCell(neighborX,neighborY);
-                        }
-                    }
-                }
+   void openCell(int x,int y)
+   {
+    if(!valid(x,y)) return;
 
+    if(board[y][x].getState() == Cell::Opened || board[y][x].getState() == Cell::Flagged)
+    {
+        return;
+    }
+    if(board[y][x].hasMine()) return;
+    if(board[y][x].getNeightborCount() == 0)
+    {
+        for(int dx = -1;dx < 1;++dx)
+        {
+            for(int dy = -1;dy < 1; ++ dy)
+            {
+                if(dx == 0 && dy == 0) continue;
+
+                int NeighborX = x + dx;
+                int NeighborY = y + dy;
+
+                openCell(NeighborX,NeighborY);
             }
         }
+    } 
+}
+public:
+    void toggleFlag(int  x,int y)
+    {
+        if(!valid(x,y)) return;
+        if(board[y][x].getState() != Cell::Opened) board[y][x].ToggleFlag(); 
+
     }
 };
 
