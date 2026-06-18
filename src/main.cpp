@@ -36,6 +36,7 @@ public:
 class GameBoard
 {
 private:
+    enum status {Win,Lose};
     int width;
     int height;
     int mineCount;
@@ -142,6 +143,22 @@ public:
         if (board[y][x].getState() != Cell::Opened)
         {
             board[y][x].ToggleFlag();
+        }
+    }
+private:
+    void checkWin(int x,int y)
+    {
+        for(int i = 0;i < x;++i)
+        {
+            for(int j = 0;j<y;++j)
+            {
+                int hasOpened = board[y][x].getState() == Cell::Opened;
+                if(hasOpened == ((width*height)-mineCount)) status = Won;
+            }
+            else 
+            {
+                status = Lose;
+            }
         }
     }
 };
