@@ -121,12 +121,16 @@ public:
     void openCell(int x, int y)
     {
         if (!valid(x, y)) return;
+        if(status != Playing) return;
         if (board[y][x].getState() == Cell::Opened || board[y][x].getState() == Cell::Flagged) return;
 
         board[y][x].open();
 
-        if (board[y][x].hasMine()) return;
-
+        if (board[y][x].hasMine()) 
+        {
+            status = Lose;
+            return;
+        }
         if (board[y][x].getNeightborCount() == 0)
         {
             for (int dx = -1; dx <= 1; ++dx)
@@ -148,6 +152,7 @@ public:
     void toggleFlag(int x, int y)
     {
         if (!valid(x, y)) return;
+        if(status != Playing) return;
         if (board[y][x].getState() != Cell::Opened)
         {
             board[y][x].ToggleFlag();
@@ -170,6 +175,18 @@ private:
         if(OpenedCount == (width*height)-mineCount)
         {
             status = Won;
+        }
+    }
+
+    void reset()
+    {
+        status = Playing;
+        for(int y = 0;y<height;++y)
+        {
+            for(int x = 0;x<width;++x)
+            {
+                board[y][x] = Cell();
+            }
         }
     }
    
@@ -258,6 +275,14 @@ int main()
                 window.close();
             }
 
+            if(event.type == sf::Event::KeyPressed)
+            {
+                if(event.key.code == sf::Keyboard::R)
+                {
+                    game.reset();
+                    firstClick = true;
+                }
+            }
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
