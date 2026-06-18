@@ -20,7 +20,7 @@ public:
     bool hasMine() const {return isMine;}
 
     void setNeighborMines(int  count) { NeighborMines = count;}
-    int getNeightbourCount() const {return NeighborMines;}
+    int getNeightborCount() const {return NeighborMines;}
 
     State getState() const{return state;}
     void setState(State s) {state = s;}
@@ -103,6 +103,30 @@ private:
                     }
                 }
                 board[y][x].setNeighborMines(mineAround);
+            }
+        }
+    }
+public:
+    void CaseOpen(int x, int y)
+    {
+        if(valid(x,y))
+        {
+            if(!board[x][y].hasMine())
+            {
+                while((board[x][y].getState() == Cell::Flagged) || (board[x][y].getState() == Cell::Opened)) continue;
+                if(getNeighborCount()>0) board[x][y].open();
+                else if(getNeighborCount() == 0)
+                {
+                    board[x][y].open();
+                    for(int dx = -1;dx<width;++dx)
+                    {
+                        for(int dy = -1;dy<height;++dy)
+                        {
+                            openCell(neighborX,neighborY);
+                        }
+                    }
+                }
+
             }
         }
     }
