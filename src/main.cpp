@@ -150,7 +150,17 @@ private:
     float cellSize;
     sf::Vector2f ofset;
 public:
-    Board(int w ,int h, float cSize, float offX, float offY) : width(w),height(h),cellSize(cSize) {}
+    Board(int w ,int h, float cSize, float offX, float offY) 
+        : width(w),height(h),cellSize(cSize),ofset(offX,offY) {}
+public:
+    sf::Vector2i getCellFromMouse(int mouseX,int mouseY)
+    {
+        float CellX = mouseX - ofset.x;
+        float CellY = mouseY - ofset.y;
+        return sf::Vector2i(CellX,CellY);
+    }
+    
+    
 };
 
 
