@@ -4,6 +4,7 @@
 #include <vector>
 #include <random>
 #include <ctime>
+#include <string>
 
 class Cell
 {
@@ -251,6 +252,8 @@ public:
     }
 };
 
+enum class AppState {MainMenu,Settings,Exit,Gameplay};
+
 int main()
 {
     srand(static_cast<unsigned int>(time(0)));
@@ -260,14 +263,50 @@ int main()
     
     sf::RenderWindow window(sf::VideoMode({windowWidth, windowHeight}), "Minesweeper");
 
-    GameBoard game(10, 10, 15);
-    Board view(10, 10, 32.f, 50.f, 50.f);
+    int cols = 10;
+    int rows = 10;
+    float cellSize = 32.f;
+
+    float boardWidth = cols * cellSize;
+    float boardHeight = rows * cellSize;
+
+    float offsetX = (window.getSize().x - boardWidth) / 2.f;
+    float offsetY = (window.getSize().y - boardHeight) / 2.f;
+
+    GameBoard game(cols, rows, 15);
+    Board view(cols, rows, cellSize, offsetX, offsetY);
+
+    sf::Font font;
+    if (!font.loadFromFile("assets/fonts/minecraft.ttf"))
+    {
+        return -1;
+    }
     
+    sf::RectangleShape buttonPlay;
+    buttonPlay.setSize(sf::Vector2f(300.f, 60.f));
+    buttonPlay.setFillColor(sf::Color(200, 200, 200));
+
+    float buttonX = (window.getSize().x / 2.f) - (buttonPlay.getSize().x / 2.f);
+    float buttonY = (window.getSize().y / 2.f) - (buttonPlay.getSize().y / 2.f) - 50.f;
+    buttonPlay.setPosition(sf::Vector2f(buttonX, buttonY));
+
+    sf::Text textPlay;
+    textPlay.setFont(font);
+    textPlay.setString("Play");
+    textPlay.setCharacterSize(30);
+    textPlay.setFillColor(sf::Color::Black);
+
+    float textX = buttonX + (buttonPlay.getSize().x - textPlay.getGlobalBounds().width) / 2.f;
+    float textY = buttonY + (buttonPlay.getSize().y - textPlay.getGlobalBounds().height) / 2.f;
+    textPlay.setPosition(sf::Vector2f(textX, textY - 5.f));
+
     bool firstClick = true;
+    AppState currentState = AppState::MainMenu;
 
     while (window.isOpen())
     {
         sf::Event event;
+        
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
@@ -275,46 +314,80 @@ int main()
                 window.close();
             }
 
-            if(event.type == sf::Event::KeyPressed)
+            switch (currentState)
             {
-                if(event.key.code == sf::Keyboard::R)
+                case AppState::MainMenu:
                 {
-                    game.reset();
-                    firstClick = true;
-                }
-            }
-            if (event.type == sf::Event::MouseButtonPressed)
-            {
-                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                sf::Vector2i cell = view.getCellFromMouse(mousePos.x, mousePos.y);
+                    if (event.type == sf::Event::MouseButtonPressed)
+                    {
+                        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                        sf::Vector2f mousePosF = window.mapPixelToCoords(mousePos);
 
-                if (game.valid(cell.x, cell.y))
+                        if (buttonPlay.getGlobalBounds().contains(mousePosF))
+                        {
+                            currentState = AppState::Gameplay;
+                        }
+                    }
+                    break;
+                }
+
+                case AppState::Gameplay:
                 {
-                    if (event.mouseButton.button == sf::Mouse::Left)
+                    if (event.type == sf::Event::KeyPressed)
                     {
-                        if (firstClick)
+                        if (event.key.code == sf::Keyboard::R)
                         {
-                            game.generateBoard(cell.x, cell.y);
-                            firstClick = false;
-                        }
-                        game.openCell(cell.x, cell.y);
-                    }
-                    else if (event.mouseButton.button == sf::Mouse::Right)
-                    {
-                        if (!firstClick)
-                        {
-                            game.toggleFlag(cell.x, cell.y);
+                            game.reset();
+                            firstClick = true;
                         }
                     }
+
+                    if (event.type == sf::Event::MouseButtonPressed)
+                    {
+                        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                        sf::Vector2i cell = view.getCellFromMouse(mousePos.x, mousePos.y);
+
+                        if (game.valid(cell.x, cell.y))
+                        {
+                            if (event.mouseButton.button == sf::Mouse::Left)
+                            {
+                                if (firstClick)
+                                {
+                                    game.generateBoard(cell.x, cell.y);
+                                    firstClick = false;
+                                }
+                                game.openCell(cell.x, cell.y);
+                            }
+                            else if (event.mouseButton.button == sf::Mouse::Right)
+                            {
+                                if (!firstClick)
+                                {
+                                    game.toggleFlag(cell.x, cell.y);
+                                }
+                            }
+                        }
+                    }
+                    break;
                 }
             }
         }
 
         window.clear(sf::Color(40, 40, 40));
-        view.draw(window, game);
+
+        switch (currentState)
+        {
+            case AppState::MainMenu:
+                window.draw(buttonPlay);
+                window.draw(textPlay);
+                break;
+
+            case AppState::Gameplay:
+                view.draw(window, game);
+                break;
+        }
+
         window.display();
     }
 
     return 0;
 }
-
