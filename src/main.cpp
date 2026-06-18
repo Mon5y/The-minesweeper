@@ -149,41 +149,60 @@ private:
     int height;
     float cellSize;
     sf::Vector2f ofset;
+
 public:
-    Board(int w ,int h, float cSize, float offX, float offY) 
-        : width(w),height(h),cellSize(cSize),ofset(offX,offY) {}
-public:
-    sf::Vector2i getCellFromMouse(int mouseX,int mouseY)
+    Board(int w, int h, float cSize, float offX, float offY) 
+        : width(w), height(h), cellSize(cSize), ofset(offX, offY) {}
+
+    sf::Vector2i getCellFromMouse(int mouseX, int mouseY)
     {
-        float CellX = static_cast<int>((mouseX - ofset.x) / cellSize);
-        float CellY = static_cast<int>((mouseY - ofset.y) / cellSize);
-        return sf::Vector2i(CellX,CellY);
+        int cellX = static_cast<int>((mouseX - ofset.x) / cellSize);
+        int cellY = static_cast<int>((mouseY - ofset.y) / cellSize);
+        return sf::Vector2i(cellX, cellY);
     }
 
     void draw(sf::RenderWindow& window, const GameBoard& gameboard)
     {
-        for(int x = 0; x < width;++x)
+        for (int y = 0; y < height; ++y) 
         {
-            for(int y = 0; y< height;++y)
+            for (int x = 0; x < width; ++x) 
             {
-                float PosX = ofset.x + x*cellSize;
-                float PosY = ofset.y + x*cellSize;
+                
+                float posX = ofset.x + x * cellSize;
+                float posY = ofset.y + y * cellSize;
 
-                sf::RectangleShape tile(sf::Vector2f(cellSize - 2.f,cellSize - 2.f));
-                tile.setPosition({PosX,PosY});
+                sf::RectangleShape tile(sf::Vector2f(cellSize - 2.f, cellSize - 2.f));
+                tile.setPosition({posX, posY});
 
-                Cell::State state = gameboard.getCell(x,y).getState();
+                
+                Cell::State state = gameboard.getCell(x, y).getState();
 
-                if(state == Cell::Opened) 
+                
+                if (state == Cell::Hidden) 
                 {
-                    cell.setFillColor(sf::Color::Gray)
+                    tile.setFillColor(sf::Color(100, 100, 100)); 
                 }
+                else if (state == Cell::Flagged) 
+                {
+                    tile.setFillColor(sf::Color(200, 150, 50)); 
+                }
+                else if (state == Cell::Opened) 
+                {
+                    if (gameboard.getCell(x, y).hasMine()) 
+                    {
+                        tile.setFillColor(sf::Color(200, 50, 50));
+                    } 
+                    else 
+                    {
+                        tile.setFillColor(sf::Color(180, 180, 180)); 
+                    }
+                }
+                window.draw(tile);
             }
         }
     }
-    
-    
 };
+
 
 
 
@@ -192,6 +211,9 @@ int main()
     const int width = 1600;
     const int height = 900;
     sf::RenderWindow window(sf::VideoMode{width,height},"minesweeper");
+    GameBoard(10,10,15);
+    Board view(10,10,32.f,50.f,50.f);
+
 
     while(window.isOpen())
     {
@@ -202,8 +224,10 @@ int main()
             {
                 window.close();
             }
+            view.getCellFromMouse();
         }
         window.clear();
+        view.draw(window, game)
         window.display();
     }
     return 0;
