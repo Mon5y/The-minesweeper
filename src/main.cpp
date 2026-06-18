@@ -36,11 +36,11 @@ public:
 class GameBoard
 {
 private:
-    enum status {Win,Lose};
     int width;
     int height;
     int mineCount;
     std::vector<std::vector<Cell>> board;
+
 
     void countNeighborMines()
     {
@@ -68,6 +68,13 @@ private:
             }
         }
     }
+
+public:
+    enum GameStatus {Playing,Won,Lose};
+private:
+    GameStatus status = Playing;
+public:
+    GameStatus getStatus() const {return status;}
 
 public:
     GameBoard(int w, int h, int mines) : width(w), height(h), mineCount(mines)
@@ -135,6 +142,7 @@ public:
                 }
             }
         }
+        checkWin();
     }
 
     void toggleFlag(int x, int y)
@@ -146,21 +154,25 @@ public:
         }
     }
 private:
-    void checkWin(int x,int y)
+    void checkWin()
     {
-        for(int i = 0;i < x;++i)
+        int OpenedCount = 0;
+        for(int y = 0; y< height;++y)
         {
-            for(int j = 0;j<y;++j)
+            for(int x = 0;x < width;++x)
             {
-                int hasOpened = board[y][x].getState() == Cell::Opened;
-                if(hasOpened == ((width*height)-mineCount)) status = Won;
-            }
-            else 
-            {
-                status = Lose;
+                if(board[y][x].getState() == Cell::Opened)
+                {
+                    OpenedCount++;
+                }
             }
         }
+        if(OpenedCount == (width*height)-mineCount)
+        {
+            status = Won;
+        }
     }
+   
 };
 
 class Board
