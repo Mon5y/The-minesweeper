@@ -177,7 +177,7 @@ private:
             status = Won;
         }
     }
-
+public:
     void reset()
     {
         status = Playing;
