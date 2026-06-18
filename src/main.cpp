@@ -155,9 +155,31 @@ public:
 public:
     sf::Vector2i getCellFromMouse(int mouseX,int mouseY)
     {
-        float CellX = mouseX - ofset.x;
-        float CellY = mouseY - ofset.y;
+        float CellX = static_cast<int>((mouseX - ofset.x) / cellSize);
+        float CellY = static_cast<int>((mouseY - ofset.y) / cellSize);
         return sf::Vector2i(CellX,CellY);
+    }
+
+    void draw(sf::RenderWindow& window, const GameBoard& gameboard)
+    {
+        for(int x = 0; x < width;++x)
+        {
+            for(int y = 0; y< height;++y)
+            {
+                float PosX = ofset.x + x*cellSize;
+                float PosY = ofset.y + x*cellSize;
+
+                sf::RectangleShape tile(sf::Vector2f(cellSize - 2.f,cellSize - 2.f));
+                tile.setPosition({PosX,PosY});
+
+                Cell::State state = gameboard.getCell(x,y).getState();
+
+                if(state == Cell::Opened) 
+                {
+                    cell.setFillColor(sf::Color::Gray)
+                }
+            }
+        }
     }
     
     
