@@ -212,44 +212,63 @@ public:
         return sf::Vector2i(cellX, cellY);
     }
 
-    void draw(sf::RenderWindow& window, const GameBoard& gameboard)
+    void draw(sf::RenderWindow& window, const GameBoard& gameboard, sf::Font& font)
+{
+    for (int y = 0; y < height; ++y)
     {
-        for (int y = 0; y < height; ++y)
+        for (int x = 0; x < width; ++x)
         {
-            for (int x = 0; x < width; ++x)
+            float posX = ofset.x + x * cellSize;
+            float posY = ofset.y + y * cellSize;
+
+            sf::RectangleShape tile(sf::Vector2f(cellSize - 2.f, cellSize - 2.f));
+            tile.setPosition({posX, posY});
+
+            Cell::State state = gameboard.getCell(x, y).getState();
+
+            if (state == Cell::Hidden)
             {
-                float posX = ofset.x + x * cellSize;
-                float posY = ofset.y + y * cellSize;
-
-                sf::RectangleShape tile(sf::Vector2f(cellSize - 2.f, cellSize - 2.f));
-                tile.setPosition({posX, posY});
-
-                Cell::State state = gameboard.getCell(x, y).getState();
-
-                if (state == Cell::Hidden)
-                {
-                    tile.setFillColor(sf::Color(100, 100, 100));
-                }
-                else if (state == Cell::Flagged)
-                {
-                    tile.setFillColor(sf::Color(200, 150, 50));
-                }
-                else if (state == Cell::Opened)
-                {
-                    if (gameboard.getCell(x, y).hasMine())
-                    {
-                        tile.setFillColor(sf::Color(200, 50, 50));
-                    }
-                    else
-                    {
-                        tile.setFillColor(sf::Color(180, 180, 180));
-                    }
-                }
-
-                window.draw(tile);
+                tile.setFillColor(sf::Color(100, 100, 100));
             }
+            else if (state == Cell::Flagged)
+            {
+                tile.setFillColor(sf::Color(200, 150, 50));
+            }
+            else if (state == Cell::Opened)
+            {
+                if (gameboard.getCell(x, y).hasMine())
+                {
+                    tile.setFillColor(sf::Color(200, 50, 50));
+                }
+                else
+                {
+                    tile.setFillColor(sf::Color(180, 180, 180));
+                }
+            }
+
+            window.draw(tile);
+            /*
+            if (state == Cell::Opened && !gameboard.getCell(x, y).hasMine())
+            {
+                int count = gameboard.getCell(x, y).getNeightborCount();
+                if (count > 0)
+                {
+                    sf::Text countText;
+                    countText.setFont(font);
+                    countText.setString(std::to_string(count));
+                    countText.setCharacterSize(18);
+                    countText.setFillColor(sf::Color::Blue);
+
+                    float textX = posX + (cellSize - countText.getGlobalBounds().width) / 2.f;
+                    float textY = posY + (cellSize - countText.getGlobalBounds().height) / 2.f - 4.f;
+
+                    countText.setPosition({textX, textY});
+                    window.draw(countText);
+                }
+            }*/
         }
     }
+}
 };
 
 enum class AppState {MainMenu,Settings,Exit,Gameplay};
@@ -277,10 +296,14 @@ int main()
     Board view(cols, rows, cellSize, offsetX, offsetY);
 
     sf::Font font;
-    if (!font.loadFromFile("assets/fonts/minecraft.ttf"))
-    {
-        return -1;
-    }
+        if (!font.loadFromFile("assets/fonts/minecraft.ttf"))
+        {
+            // Вместо тихого закрытия выводим текст в консоль
+            std::cout << "!!! FONT CRASH: Cannot load assets/fonts/minecraft.ttf !!!" << std::endl;
+            std::cout << "Current working directory issue." << std::endl;
+            system("pause"); // Задержит окно консоли, чтобы ты успел прочитать
+            return -1;
+        }
     
     sf::RectangleShape buttonPlay;
     buttonPlay.setSize(sf::Vector2f(300.f, 60.f));
@@ -382,12 +405,12 @@ int main()
                 break;
 
             case AppState::Gameplay:
-                view.draw(window, game);
+                view.draw(window, game, font); // Добавили font третьим аргументом
                 break;
-        }
 
         window.display();
     }
 
     return 0;
+    }
 }
