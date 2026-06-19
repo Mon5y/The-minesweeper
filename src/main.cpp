@@ -237,28 +237,22 @@ public:
 
                 Cell::State state = gameboard.getCell(x, y).getState();
 
-                if (state == Cell::Hidden)
-                {
-                    tile.setFillColor(sf::Color(100, 100, 100));
-                }
-                else if (state == Cell::Flagged)
-                {
-                    tile.setFillColor(sf::Color(200, 150, 50));
-                }
-                else if (state == Cell::Opened)
-                {
-                    if (gameboard.getCell(x, y).hasMine())
-                    {
-                        tile.setFillColor(sf::Color(200, 50, 50));
-                    } else if (state == Cell::Exploded)
-                    {
-                        tile.setFillColor(sf::Color(0,255,0));
+                if (state == Cell::Hidden) {
+                tile.setFillColor(sf::Color(100, 100, 100));
                     }
-                    else
-                    {
-                        tile.setFillColor(sf::Color(180, 180, 180));
+                    else if (state == Cell::Flagged) {
+                        tile.setFillColor(sf::Color(200, 150, 50));
                     }
-                }
+                    else if (state == Cell::Exploded) { // <--- Сначала проверяем взрыв!
+                        tile.setFillColor(sf::Color(0, 255, 0)); 
+                    }
+                    else if (state == Cell::Opened) { // <--- Только потом обычные открытые
+                        if (gameboard.getCell(x, y).hasMine()) {
+                            tile.setFillColor(sf::Color(200, 50, 50)); // Обычная мина
+                        } else {
+                            tile.setFillColor(sf::Color(180, 180, 180)); // Пустая ячейка
+                        }
+                    }
 
                 window.draw(tile);
 
@@ -316,13 +310,15 @@ int main()
         return -1;
     }
 
+   
     sf::RectangleShape buttonPlay;
     buttonPlay.setSize(sf::Vector2f(300.f, 60.f));
     buttonPlay.setFillColor(sf::Color(200, 200, 200));
 
+   
     float buttonX = (window.getSize().x / 2.f) - (buttonPlay.getSize().x / 2.f);
-    float buttonY = (window.getSize().y / 2.f) - (buttonPlay.getSize().y / 2.f) - 50.f;
-    buttonPlay.setPosition(sf::Vector2f(buttonX, buttonY));
+    float playY = (window.getSize().y / 2.f) - (buttonPlay.getSize().y / 2.f) - 100.f; 
+    buttonPlay.setPosition(sf::Vector2f(buttonX, playY));
 
     sf::Text textPlay;
     textPlay.setFont(font);
@@ -330,9 +326,48 @@ int main()
     textPlay.setCharacterSize(30);
     textPlay.setFillColor(sf::Color::Black);
 
-    float textX = buttonX + (buttonPlay.getSize().x - textPlay.getGlobalBounds().width) / 2.f;
-    float textY = buttonY + (buttonPlay.getSize().y - textPlay.getGlobalBounds().height) / 2.f;
-    textPlay.setPosition(sf::Vector2f(textX, textY - 5.f));
+    float textPlayX = buttonX + (buttonPlay.getSize().x - textPlay.getGlobalBounds().width) / 2.f;
+    float textPlayY = playY + (buttonPlay.getSize().y - textPlay.getGlobalBounds().height) / 2.f;
+    textPlay.setPosition(sf::Vector2f(textPlayX, textPlayY - 5.f));
+
+
+
+    sf::RectangleShape buttonSettings;
+    buttonSettings.setSize(sf::Vector2f(300.f, 60.f));
+    buttonSettings.setFillColor(sf::Color(200, 200, 200));
+
+
+    float settingsY = playY + 60.f + 20.f;
+    buttonSettings.setPosition(sf::Vector2f(buttonX, settingsY));
+
+    sf::Text textSettings; 
+    textSettings.setFont(font);
+    textSettings.setString("Settings");
+    textSettings.setCharacterSize(30);
+    textSettings.setFillColor(sf::Color::Black);
+
+    float textSettingsX = buttonX + (buttonSettings.getSize().x - textSettings.getGlobalBounds().width) / 2.f;
+    float textSettingsY = settingsY + (buttonSettings.getSize().y - textSettings.getGlobalBounds().height) / 2.f;
+    textSettings.setPosition(sf::Vector2f(textSettingsX, textSettingsY - 5.f));
+
+    sf::RectangleShape buttonExit;
+    buttonExit.setSize(sf::Vector2f(300.f, 60.f));
+    buttonExit.setFillColor(sf::Color(200, 200, 200));
+
+    float exitY = settingsY + 60.f + 20.f;
+    buttonExit.setPosition(sf::Vector2f(buttonX, exitY));
+
+    sf::Text textExit; 
+    textExit.setFont(font);
+    textExit.setString("Exit");
+    textExit.setCharacterSize(30);
+    textExit.setFillColor(sf::Color::Black);
+
+    float textExitX = buttonX + (buttonExit.getSize().x - textExit.getGlobalBounds().width) / 2.f;
+    float textExitY = exitY + (buttonExit.getSize().y - textExit.getGlobalBounds().height) / 2.f;
+    textExit.setPosition(sf::Vector2f(textExitX, textExitY - 5.f));
+
+
 
     bool firstClick = true;
     AppState currentState = AppState::MainMenu;
@@ -347,7 +382,6 @@ int main()
             {
                 window.close();
             }
-
             switch (currentState)
             {
                 case AppState::MainMenu:
@@ -357,10 +391,9 @@ int main()
                         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                         sf::Vector2f mousePosF = window.mapPixelToCoords(mousePos);
 
-                        if (buttonPlay.getGlobalBounds().contains(mousePosF))
-                        {
-                            currentState = AppState::Gameplay;
-                        }
+                        if (buttonPlay.getGlobalBounds().contains(mousePosF))   currentState = AppState::Gameplay;
+                        else if (buttonSettings.getGlobalBounds().contains(mousePosF))   currentState = AppState::Settings;
+                        else if(buttonExit.getGlobalBounds().contains(mousePosF)) currentState = AppState::Exit;
                     }
                     break;
                 }
@@ -380,7 +413,7 @@ int main()
                     {
                         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                         sf::Vector2i cell = view.getCellFromMouse(mousePos.x, mousePos.y);
-
+                        
                         if (game.valid(cell.x, cell.y))
                         {
                             if (event.mouseButton.button == sf::Mouse::Left)
@@ -403,9 +436,43 @@ int main()
                     }
                     break;
                 }
+                case AppState::Settings:
+                {
+                    if(sf::Event::KeyPressed)
+                    {
+                        if(event.key.code == sf::Keyboard::Escape)
+                        {
+                            currentState = AppState::MainMenu;
+                        }
+                    }
+                }
+                break;
+                case AppState::Exit:
+                    window.close();
+                    break;
             }
         }
 
+        if (currentState == AppState::MainMenu)
+                        {
+                            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                            sf::Vector2f mousePosF = window.mapPixelToCoords(mousePos);
+
+                            if (buttonPlay.getGlobalBounds().contains(mousePosF)) 
+                                buttonPlay.setFillColor(sf::Color(230, 230, 230));
+                            else 
+                                buttonPlay.setFillColor(sf::Color(200, 200, 200));
+
+                            if (buttonSettings.getGlobalBounds().contains(mousePosF)) 
+                                buttonSettings.setFillColor(sf::Color(230, 230, 230));
+                            else 
+                                buttonSettings.setFillColor(sf::Color(200, 200, 200));
+
+                            if (buttonExit.getGlobalBounds().contains(mousePosF)) 
+                                buttonExit.setFillColor(sf::Color(230, 230, 230));
+                            else 
+                                buttonExit.setFillColor(sf::Color(200, 200, 200));
+                        }
         window.clear(sf::Color(40, 40, 40));
 
         switch (currentState)
@@ -413,6 +480,10 @@ int main()
             case AppState::MainMenu:
                 window.draw(buttonPlay);
                 window.draw(textPlay);
+                window.draw(buttonSettings);
+                window.draw(textSettings);
+                window.draw(buttonExit);
+                window.draw(textExit);
                 break;
 
             case AppState::Gameplay:
