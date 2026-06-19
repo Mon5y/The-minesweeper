@@ -9,7 +9,7 @@
 class Cell
 {
 public:
-    enum State { Hidden, Opened, Flagged };
+    enum State { Hidden, Opened, Flagged, Exploded };
 private:
     bool isMine;
     int NeighborMines;
@@ -42,7 +42,6 @@ private:
     int mineCount;
     std::vector<std::vector<Cell>> board;
 
-
     void countNeighborMines()
     {
         for (int y = 0; y < height; ++y)
@@ -71,13 +70,12 @@ private:
     }
 
 public:
-    enum GameStatus {Playing,Won,Lose};
+    enum GameStatus { Playing, Won, Lose };
 private:
     GameStatus status = Playing;
 public:
-    GameStatus getStatus() const {return status;}
+    GameStatus getStatus() const { return status; }
 
-public:
     GameBoard(int w, int h, int mines) : width(w), height(h), mineCount(mines)
     {
         board.resize(height);
@@ -122,14 +120,24 @@ public:
     void openCell(int x, int y)
     {
         if (!valid(x, y)) return;
-        if(status != Playing) return;
+        if (status != Playing) return;
         if (board[y][x].getState() == Cell::Opened || board[y][x].getState() == Cell::Flagged) return;
 
         board[y][x].open();
 
-        if (board[y][x].hasMine()) 
+        if (board[y][x].hasMine())
         {
             status = Lose;
+            board[y][x].setState(Cell::Exploded);
+            for(int i = 0;i<height;++i)
+            {
+                for(int j = 0;j<width;++j)
+                {
+                    if(board[i][j].hasMine()) {
+                        board[i][j].open();
+                }
+                }
+            }
             return;
         }
         if (board[y][x].getNeightborCount() == 0)
@@ -147,50 +155,53 @@ public:
                 }
             }
         }
+        
         checkWin();
     }
 
     void toggleFlag(int x, int y)
     {
         if (!valid(x, y)) return;
-        if(status != Playing) return;
+        if (status != Playing) return;
         if (board[y][x].getState() != Cell::Opened)
         {
             board[y][x].ToggleFlag();
         }
     }
+
 private:
     void checkWin()
     {
         int OpenedCount = 0;
-        for(int y = 0; y< height;++y)
+        for (int y = 0; y < height; ++y)
         {
-            for(int x = 0;x < width;++x)
+            for (int x = 0; x < width; ++x)
             {
-                if(board[y][x].getState() == Cell::Opened)
+                if (board[y][x].getState() == Cell::Opened)
                 {
                     OpenedCount++;
                 }
             }
         }
-        if(OpenedCount == (width*height)-mineCount)
+        if (OpenedCount == (width * height) - mineCount)
         {
             status = Won;
         }
     }
+
+
 public:
     void reset()
     {
         status = Playing;
-        for(int y = 0;y<height;++y)
+        for (int y = 0; y < height; ++y)
         {
-            for(int x = 0;x<width;++x)
+            for (int x = 0; x < width; ++x)
             {
                 board[y][x] = Cell();
             }
         }
     }
-   
 };
 
 class Board
@@ -213,65 +224,68 @@ public:
     }
 
     void draw(sf::RenderWindow& window, const GameBoard& gameboard, sf::Font& font)
-{
-    for (int y = 0; y < height; ++y)
     {
-        for (int x = 0; x < width; ++x)
+        for (int y = 0; y < height; ++y)
         {
-            float posX = ofset.x + x * cellSize;
-            float posY = ofset.y + y * cellSize;
-
-            sf::RectangleShape tile(sf::Vector2f(cellSize - 2.f, cellSize - 2.f));
-            tile.setPosition({posX, posY});
-
-            Cell::State state = gameboard.getCell(x, y).getState();
-
-            if (state == Cell::Hidden)
+            for (int x = 0; x < width; ++x)
             {
-                tile.setFillColor(sf::Color(100, 100, 100));
-            }
-            else if (state == Cell::Flagged)
-            {
-                tile.setFillColor(sf::Color(200, 150, 50));
-            }
-            else if (state == Cell::Opened)
-            {
-                if (gameboard.getCell(x, y).hasMine())
+                float posX = ofset.x + x * cellSize;
+                float posY = ofset.y + y * cellSize;
+
+                sf::RectangleShape tile(sf::Vector2f(cellSize - 2.f, cellSize - 2.f));
+                tile.setPosition({ posX, posY });
+
+                Cell::State state = gameboard.getCell(x, y).getState();
+
+                if (state == Cell::Hidden)
                 {
-                    tile.setFillColor(sf::Color(200, 50, 50));
+                    tile.setFillColor(sf::Color(100, 100, 100));
                 }
-                else
+                else if (state == Cell::Flagged)
                 {
-                    tile.setFillColor(sf::Color(180, 180, 180));
+                    tile.setFillColor(sf::Color(200, 150, 50));
+                }
+                else if (state == Cell::Opened)
+                {
+                    if (gameboard.getCell(x, y).hasMine())
+                    {
+                        tile.setFillColor(sf::Color(200, 50, 50));
+                    } else if (state == Cell::Exploded)
+                    {
+                        tile.setFillColor(sf::Color(0,255,0));
+                    }
+                    else
+                    {
+                        tile.setFillColor(sf::Color(180, 180, 180));
+                    }
+                }
+
+                window.draw(tile);
+
+                if (state == Cell::Opened && !gameboard.getCell(x, y).hasMine())
+                {
+                    int count = gameboard.getCell(x, y).getNeightborCount();
+                    if (count > 0)
+                    {
+                        sf::Text countText;
+                        countText.setFont(font);
+                        countText.setString(std::to_string(count));
+                        countText.setCharacterSize(18);
+                        countText.setFillColor(sf::Color::Blue);
+
+                        float textX = posX + (cellSize - countText.getGlobalBounds().width) / 2.f;
+                        float textY = posY + (cellSize - countText.getGlobalBounds().height) / 2.f - 4.f;
+
+                        countText.setPosition({ textX, textY });
+                        window.draw(countText);
+                    }
                 }
             }
-
-            window.draw(tile);
-            /*
-            if (state == Cell::Opened && !gameboard.getCell(x, y).hasMine())
-            {
-                int count = gameboard.getCell(x, y).getNeightborCount();
-                if (count > 0)
-                {
-                    sf::Text countText;
-                    countText.setFont(font);
-                    countText.setString(std::to_string(count));
-                    countText.setCharacterSize(18);
-                    countText.setFillColor(sf::Color::Blue);
-
-                    float textX = posX + (cellSize - countText.getGlobalBounds().width) / 2.f;
-                    float textY = posY + (cellSize - countText.getGlobalBounds().height) / 2.f - 4.f;
-
-                    countText.setPosition({textX, textY});
-                    window.draw(countText);
-                }
-            }*/
         }
     }
-}
 };
 
-enum class AppState {MainMenu,Settings,Exit,Gameplay};
+enum class AppState { MainMenu, Settings, Exit, Gameplay };
 
 int main()
 {
@@ -279,8 +293,8 @@ int main()
 
     const int windowWidth = 1600;
     const int windowHeight = 900;
-    
-    sf::RenderWindow window(sf::VideoMode({windowWidth, windowHeight}), "Minesweeper");
+
+    sf::RenderWindow window(sf::VideoMode({ windowWidth, windowHeight }), "Minesweeper");
 
     int cols = 10;
     int rows = 10;
@@ -296,15 +310,12 @@ int main()
     Board view(cols, rows, cellSize, offsetX, offsetY);
 
     sf::Font font;
-        if (!font.loadFromFile("assets/fonts/minecraft.ttf"))
-        {
-            // Вместо тихого закрытия выводим текст в консоль
-            std::cout << "!!! FONT CRASH: Cannot load assets/fonts/minecraft.ttf !!!" << std::endl;
-            std::cout << "Current working directory issue." << std::endl;
-            system("pause"); // Задержит окно консоли, чтобы ты успел прочитать
-            return -1;
-        }
-    
+    if (!font.loadFromFile("assets/fonts/minecraft.ttf"))
+    {
+        std::cout << "!!! FONT CRASH: Cannot load assets/fonts/minecraft.ttf !!!" << std::endl;
+        return -1;
+    }
+
     sf::RectangleShape buttonPlay;
     buttonPlay.setSize(sf::Vector2f(300.f, 60.f));
     buttonPlay.setFillColor(sf::Color(200, 200, 200));
@@ -329,7 +340,7 @@ int main()
     while (window.isOpen())
     {
         sf::Event event;
-        
+
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
@@ -405,12 +416,12 @@ int main()
                 break;
 
             case AppState::Gameplay:
-                view.draw(window, game, font); // Добавили font третьим аргументом
+                view.draw(window, game, font);
                 break;
+        }
 
         window.display();
     }
 
     return 0;
-    }
 }
