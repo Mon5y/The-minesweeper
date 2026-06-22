@@ -367,7 +367,7 @@ int main()
     float textExitY = exitY + (buttonExit.getSize().y - textExit.getGlobalBounds().height) / 2.f;
     textExit.setPosition(sf::Vector2f(textExitX, textExitY - 5.f));
 
-    //кнопки настроек
+    //=====кнопки настроек========
     sf::Text Setting_text;
     Setting_text.setFont(font);
     Setting_text.setString("Setting");
@@ -375,8 +375,34 @@ int main()
     Setting_text.setFillColor(sf::Color::White);
 
     float Setting_x = (window.getSize().x - Setting_text.getGlobalBounds().width) / 2.f;
-    float Setting_y = 60.f;
-    Setting_text.setPosition(Setting_x,Setting_y);
+    float Setting_y = window.getSize().y * 0.07f; 
+    Setting_text.setPosition(Setting_x, Setting_y);
+
+    // настройки сложности
+    int selectDifficult = 0;
+
+    sf::Text textDiff;
+    textDiff.setFont(font);
+    textDiff.setString("Difficulty");
+    textDiff.setCharacterSize(24);
+    textDiff.setFillColor(sf::Color(180,180,180));
+    textDiff.setPosition(150.f,180.f);
+
+    sf::RectangleShape boxEasy(sf::Vector2f(20.f,20.f));
+    sf::RectangleShape boxNormal(sf::Vector2f(20.f,20.f));
+    sf::RectangleShape boxHard(sf::Vector2f(20.f,20.f));
+
+    boxEasy.setOutlineThickness(2.f); boxEasy.setOutlineColor(sf::Color::White);
+    boxNormal.setOutlineThickness(2.f); boxNormal.setOutlineColor(sf::Color::White);
+    boxHard.setOutlineThickness(2.f); boxHard.setOutlineColor(sf::Color::White);
+
+    boxEasy.setPosition(Setting_y-20,Setting_x);
+    boxNormal.setPosition(Setting_y-45,Setting_x);
+    boxHard.setPosition(Setting_y-70,Setting_x);
+
+    sf::Text textEasy("Easy",font,20); textEasy.setPosition(Setting_y - 20,Setting_x + 20);
+    sf::Text textNormal("Normal",font,20); textEasy.setPosition(Setting_y - 20,Setting_x + 20);
+    sf::Text textHard("Hard",font,20); textEasy.setPosition(Setting_y - 20,Setting_x + 20);
 
     bool firstClick = true;
     AppState currentState = AppState::MainMenu;
@@ -455,6 +481,8 @@ int main()
                         }
                     }
                     window.draw(Setting_text);
+                    
+
                 }
                 break;
                 case AppState::Exit:
