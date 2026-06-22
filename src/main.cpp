@@ -310,7 +310,7 @@ int main()
         return -1;
     }
 
-   
+   //кнопки меню
     sf::RectangleShape buttonPlay;
     buttonPlay.setSize(sf::Vector2f(300.f, 60.f));
     buttonPlay.setFillColor(sf::Color(200, 200, 200));
@@ -367,7 +367,16 @@ int main()
     float textExitY = exitY + (buttonExit.getSize().y - textExit.getGlobalBounds().height) / 2.f;
     textExit.setPosition(sf::Vector2f(textExitX, textExitY - 5.f));
 
+    //кнопки настроек
+    sf::Text Setting_text;
+    Setting_text.setFont(font);
+    Setting_text.setString("Setting");
+    Setting_text.setCharacterSize(45);
+    Setting_text.setFillColor(sf::Color::White);
 
+    float Setting_x = (window.getSize().x - Setting_text.getGlobalBounds().width) / 2.f;
+    float Setting_y = 60.f;
+    Setting_text.setPosition(Setting_x,Setting_y);
 
     bool firstClick = true;
     AppState currentState = AppState::MainMenu;
@@ -445,6 +454,7 @@ int main()
                             currentState = AppState::MainMenu;
                         }
                     }
+                    window.draw(Setting_text);
                 }
                 break;
                 case AppState::Exit:
@@ -489,7 +499,10 @@ int main()
             case AppState::Gameplay:
                 view.draw(window, game, font);
                 break;
+            case AppState::Settings:
+                window.draw(Setting_text);
         }
+
 
         window.display();
     }
