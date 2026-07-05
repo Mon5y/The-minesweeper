@@ -82,7 +82,7 @@ clean: CMakeFiles/Game.dir/clean
 CMakeFiles/tmxlite.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\tmxlite.dir\build.make CMakeFiles/tmxlite.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\tmxlite.dir\build.make CMakeFiles/tmxlite.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=5,6,7,8,9,10,11,12,13,14,15,16,17 "Built target tmxlite"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=7,8,9,10,11,12,13,14,15,16,17,18,19 "Built target tmxlite"
 .PHONY : CMakeFiles/tmxlite.dir/all
 
 # Build rule for subdir invocation for target.
@@ -108,12 +108,12 @@ CMakeFiles/tmxlite.dir/clean:
 CMakeFiles/Game.dir/all: CMakeFiles/tmxlite.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Game.dir\build.make CMakeFiles/Game.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Game.dir\build.make CMakeFiles/Game.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=1,2,3,4 "Built target Game"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=1,2,3,4,5,6 "Built target Game"
 .PHONY : CMakeFiles/Game.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Game.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\grech\Desktop\_Game_\build\CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\grech\Desktop\_Game_\build\CMakeFiles 19
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Game.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\grech\Desktop\_Game_\build\CMakeFiles 0
 .PHONY : CMakeFiles/Game.dir/rule

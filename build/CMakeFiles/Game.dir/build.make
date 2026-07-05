@@ -68,11 +68,26 @@ include CMakeFiles/Game.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Game.dir/flags.make
 
+CMakeFiles/Game.dir/src/Board.cpp.obj: CMakeFiles/Game.dir/flags.make
+CMakeFiles/Game.dir/src/Board.cpp.obj: CMakeFiles/Game.dir/includes_CXX.rsp
+CMakeFiles/Game.dir/src/Board.cpp.obj: C:/Users/grech/Desktop/_Game_/src/Board.cpp
+CMakeFiles/Game.dir/src/Board.cpp.obj: CMakeFiles/Game.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Game.dir/src/Board.cpp.obj"
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Game.dir/src/Board.cpp.obj -MF CMakeFiles\Game.dir\src\Board.cpp.obj.d -o CMakeFiles\Game.dir\src\Board.cpp.obj -c C:\Users\grech\Desktop\_Game_\src\Board.cpp
+
+CMakeFiles/Game.dir/src/Board.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Game.dir/src/Board.cpp.i"
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\grech\Desktop\_Game_\src\Board.cpp > CMakeFiles\Game.dir\src\Board.cpp.i
+
+CMakeFiles/Game.dir/src/Board.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Game.dir/src/Board.cpp.s"
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\grech\Desktop\_Game_\src\Board.cpp -o CMakeFiles\Game.dir\src\Board.cpp.s
+
 CMakeFiles/Game.dir/src/Game.cpp.obj: CMakeFiles/Game.dir/flags.make
 CMakeFiles/Game.dir/src/Game.cpp.obj: CMakeFiles/Game.dir/includes_CXX.rsp
 CMakeFiles/Game.dir/src/Game.cpp.obj: C:/Users/grech/Desktop/_Game_/src/Game.cpp
 CMakeFiles/Game.dir/src/Game.cpp.obj: CMakeFiles/Game.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Game.dir/src/Game.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Game.dir/src/Game.cpp.obj"
 	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Game.dir/src/Game.cpp.obj -MF CMakeFiles\Game.dir\src\Game.cpp.obj.d -o CMakeFiles\Game.dir\src\Game.cpp.obj -c C:\Users\grech\Desktop\_Game_\src\Game.cpp
 
 CMakeFiles/Game.dir/src/Game.cpp.i: cmake_force
@@ -83,11 +98,26 @@ CMakeFiles/Game.dir/src/Game.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Game.dir/src/Game.cpp.s"
 	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\grech\Desktop\_Game_\src\Game.cpp -o CMakeFiles\Game.dir\src\Game.cpp.s
 
+CMakeFiles/Game.dir/src/GameBoard.cpp.obj: CMakeFiles/Game.dir/flags.make
+CMakeFiles/Game.dir/src/GameBoard.cpp.obj: CMakeFiles/Game.dir/includes_CXX.rsp
+CMakeFiles/Game.dir/src/GameBoard.cpp.obj: C:/Users/grech/Desktop/_Game_/src/GameBoard.cpp
+CMakeFiles/Game.dir/src/GameBoard.cpp.obj: CMakeFiles/Game.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Game.dir/src/GameBoard.cpp.obj"
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Game.dir/src/GameBoard.cpp.obj -MF CMakeFiles\Game.dir\src\GameBoard.cpp.obj.d -o CMakeFiles\Game.dir\src\GameBoard.cpp.obj -c C:\Users\grech\Desktop\_Game_\src\GameBoard.cpp
+
+CMakeFiles/Game.dir/src/GameBoard.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Game.dir/src/GameBoard.cpp.i"
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\grech\Desktop\_Game_\src\GameBoard.cpp > CMakeFiles\Game.dir\src\GameBoard.cpp.i
+
+CMakeFiles/Game.dir/src/GameBoard.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Game.dir/src/GameBoard.cpp.s"
+	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\grech\Desktop\_Game_\src\GameBoard.cpp -o CMakeFiles\Game.dir\src\GameBoard.cpp.s
+
 CMakeFiles/Game.dir/src/TMXLoader.cpp.obj: CMakeFiles/Game.dir/flags.make
 CMakeFiles/Game.dir/src/TMXLoader.cpp.obj: CMakeFiles/Game.dir/includes_CXX.rsp
 CMakeFiles/Game.dir/src/TMXLoader.cpp.obj: C:/Users/grech/Desktop/_Game_/src/TMXLoader.cpp
 CMakeFiles/Game.dir/src/TMXLoader.cpp.obj: CMakeFiles/Game.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Game.dir/src/TMXLoader.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Game.dir/src/TMXLoader.cpp.obj"
 	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Game.dir/src/TMXLoader.cpp.obj -MF CMakeFiles\Game.dir\src\TMXLoader.cpp.obj.d -o CMakeFiles\Game.dir\src\TMXLoader.cpp.obj -c C:\Users\grech\Desktop\_Game_\src\TMXLoader.cpp
 
 CMakeFiles/Game.dir/src/TMXLoader.cpp.i: cmake_force
@@ -102,7 +132,7 @@ CMakeFiles/Game.dir/src/main.cpp.obj: CMakeFiles/Game.dir/flags.make
 CMakeFiles/Game.dir/src/main.cpp.obj: CMakeFiles/Game.dir/includes_CXX.rsp
 CMakeFiles/Game.dir/src/main.cpp.obj: C:/Users/grech/Desktop/_Game_/src/main.cpp
 CMakeFiles/Game.dir/src/main.cpp.obj: CMakeFiles/Game.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Game.dir/src/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Game.dir/src/main.cpp.obj"
 	g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Game.dir/src/main.cpp.obj -MF CMakeFiles\Game.dir\src\main.cpp.obj.d -o CMakeFiles\Game.dir\src\main.cpp.obj -c C:\Users\grech\Desktop\_Game_\src\main.cpp
 
 CMakeFiles/Game.dir/src/main.cpp.i: cmake_force
@@ -115,14 +145,18 @@ CMakeFiles/Game.dir/src/main.cpp.s: cmake_force
 
 # Object files for target Game
 Game_OBJECTS = \
+"CMakeFiles/Game.dir/src/Board.cpp.obj" \
 "CMakeFiles/Game.dir/src/Game.cpp.obj" \
+"CMakeFiles/Game.dir/src/GameBoard.cpp.obj" \
 "CMakeFiles/Game.dir/src/TMXLoader.cpp.obj" \
 "CMakeFiles/Game.dir/src/main.cpp.obj"
 
 # External object files for target Game
 Game_EXTERNAL_OBJECTS =
 
+Game.exe: CMakeFiles/Game.dir/src/Board.cpp.obj
 Game.exe: CMakeFiles/Game.dir/src/Game.cpp.obj
+Game.exe: CMakeFiles/Game.dir/src/GameBoard.cpp.obj
 Game.exe: CMakeFiles/Game.dir/src/TMXLoader.cpp.obj
 Game.exe: CMakeFiles/Game.dir/src/main.cpp.obj
 Game.exe: CMakeFiles/Game.dir/build.make
@@ -142,7 +176,7 @@ Game.exe: C:/Users/grech/Desktop/_Game_/libs/SFML-2.5.1/lib/libopenal32.a
 Game.exe: CMakeFiles/Game.dir/linkLibs.rsp
 Game.exe: CMakeFiles/Game.dir/objects1.rsp
 Game.exe: CMakeFiles/Game.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable Game.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\grech\Desktop\_Game_\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable Game.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Game.dir\link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying assets"
 	"C:\Program Files\CMake\bin\cmake.exe" -E make_directory C:/Users/grech/Desktop/_Game_/build/assets

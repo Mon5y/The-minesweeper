@@ -6,6 +6,7 @@
 #include <ctime>
 #include <string>
 
+<<<<<<< Updated upstream
 class Cell
 {
 public:
@@ -280,6 +281,15 @@ public:
 };
 
 enum class AppState { MainMenu, Settings, Exit, Gameplay };
+=======
+// Подключаем наши новые модули
+#include "Cell.hpp"
+#include "GameBoard.hpp"
+#include "Board.hpp"
+
+enum class AppState { MainMenu, Settings, Exit, Gameplay };
+enum class Difficulty { Easy, Normal, Hard };
+>>>>>>> Stashed changes
 
 int main()
 {
@@ -302,6 +312,13 @@ int main()
 
     GameBoard game(cols, rows, 15);
     Board view(cols, rows, cellSize, offsetX, offsetY);
+<<<<<<< Updated upstream
+=======
+    AppState currentState = AppState::MainMenu;
+    bool firstClick = true;
+
+    Difficulty currentDiff = Difficulty::Easy;
+>>>>>>> Stashed changes
 
     sf::Font font;
     if (!font.loadFromFile("assets/fonts/minecraft.ttf"))
@@ -310,12 +327,19 @@ int main()
         return -1;
     }
 
+<<<<<<< Updated upstream
    //кнопки меню
+=======
+    // ===== Кнопки главного меню =====
+>>>>>>> Stashed changes
     sf::RectangleShape buttonPlay;
     buttonPlay.setSize(sf::Vector2f(300.f, 60.f));
     buttonPlay.setFillColor(sf::Color(200, 200, 200));
 
+<<<<<<< Updated upstream
    
+=======
+>>>>>>> Stashed changes
     float buttonX = (window.getSize().x / 2.f) - (buttonPlay.getSize().x / 2.f);
     float playY = (window.getSize().y / 2.f) - (buttonPlay.getSize().y / 2.f) - 100.f; 
     buttonPlay.setPosition(sf::Vector2f(buttonX, playY));
@@ -330,13 +354,19 @@ int main()
     float textPlayY = playY + (buttonPlay.getSize().y - textPlay.getGlobalBounds().height) / 2.f;
     textPlay.setPosition(sf::Vector2f(textPlayX, textPlayY - 5.f));
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
     sf::RectangleShape buttonSettings;
     buttonSettings.setSize(sf::Vector2f(300.f, 60.f));
     buttonSettings.setFillColor(sf::Color(200, 200, 200));
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     float settingsY = playY + 60.f + 20.f;
     buttonSettings.setPosition(sf::Vector2f(buttonX, settingsY));
 
@@ -367,10 +397,17 @@ int main()
     float textExitY = exitY + (buttonExit.getSize().y - textExit.getGlobalBounds().height) / 2.f;
     textExit.setPosition(sf::Vector2f(textExitX, textExitY - 5.f));
 
+<<<<<<< Updated upstream
     //=====кнопки настроек========
     sf::Text Setting_text;
     Setting_text.setFont(font);
     Setting_text.setString("Setting");
+=======
+    // ===== Элементы интерфейса настроек =====
+    sf::Text Setting_text;
+    Setting_text.setFont(font);
+    Setting_text.setString("Settings");
+>>>>>>> Stashed changes
     Setting_text.setCharacterSize(45);
     Setting_text.setFillColor(sf::Color::White);
 
@@ -378,6 +415,7 @@ int main()
     float Setting_y = window.getSize().y * 0.07f; 
     Setting_text.setPosition(Setting_x, Setting_y);
 
+<<<<<<< Updated upstream
     // настройки сложности
     int selectDifficult = 0;
 
@@ -407,6 +445,68 @@ int main()
     bool firstClick = true;
     AppState currentState = AppState::MainMenu;
 
+=======
+    float menuStartX = window.getSize().x * 0.05f;
+    float menuStartY = window.getSize().y * 0.2f;
+    float spacingY = window.getSize().y * 0.06f;
+
+    sf::Text textDiff;
+    textDiff.setFont(font);
+    textDiff.setString("Difficulty:");
+    textDiff.setCharacterSize(26);
+    textDiff.setFillColor(sf::Color::White);
+    textDiff.setPosition(menuStartX, menuStartY);
+
+    // Сложнсть: Easy
+    sf::RectangleShape boxEasy(sf::Vector2f(20.f, 20.f));
+    boxEasy.setFillColor(sf::Color::Transparent);
+    boxEasy.setOutlineThickness(2.f);
+    boxEasy.setOutlineColor(sf::Color::White);
+
+    sf::Text textEasy;
+    textEasy.setFont(font);
+    textEasy.setString("Easy");
+    textEasy.setCharacterSize(24);
+    textEasy.setFillColor(sf::Color::White);
+
+    float easyY = menuStartY + spacingY;
+    boxEasy.setPosition(menuStartX, easyY);
+    textEasy.setPosition(menuStartX + 35.f, easyY - 2.f);
+
+    // Сложность: Normal
+    sf::RectangleShape boxNormal(sf::Vector2f(20.f, 20.f));
+    boxNormal.setFillColor(sf::Color::Transparent);
+    boxNormal.setOutlineThickness(2.f);
+    boxNormal.setOutlineColor(sf::Color::White);
+
+    sf::Text textNormal;
+    textNormal.setFont(font);
+    textNormal.setString("Normal");
+    textNormal.setCharacterSize(24);
+    textNormal.setFillColor(sf::Color::White);
+
+    float NormalY = easyY + spacingY;
+    boxNormal.setPosition(menuStartX, NormalY);
+    textNormal.setPosition(menuStartX + 35.f, NormalY - 2.f);
+
+    // Сложность: Hard
+    sf::RectangleShape boxHard(sf::Vector2f(20.f, 20.f));
+    boxHard.setFillColor(sf::Color::Transparent);
+    boxHard.setOutlineThickness(2.f);
+    boxHard.setOutlineColor(sf::Color::White);
+
+    sf::Text textHard;
+    textHard.setFont(font);
+    textHard.setString("Hard");
+    textHard.setCharacterSize(24);
+    textHard.setFillColor(sf::Color::White);
+
+    float HardY = NormalY + spacingY;
+    boxHard.setPosition(menuStartX, HardY);
+    textHard.setPosition(menuStartX + 35.f, HardY - 2.f);
+
+    // ===== Главный цикл игры =====
+>>>>>>> Stashed changes
     while (window.isOpen())
     {
         sf::Event event;
@@ -417,6 +517,10 @@ int main()
             {
                 window.close();
             }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
             switch (currentState)
             {
                 case AppState::MainMenu:
@@ -426,6 +530,7 @@ int main()
                         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                         sf::Vector2f mousePosF = window.mapPixelToCoords(mousePos);
 
+<<<<<<< Updated upstream
                         if (buttonPlay.getGlobalBounds().contains(mousePosF))   currentState = AppState::Gameplay;
                         else if (buttonSettings.getGlobalBounds().contains(mousePosF))   currentState = AppState::Settings;
                         else if(buttonExit.getGlobalBounds().contains(mousePosF)) currentState = AppState::Exit;
@@ -439,6 +544,55 @@ int main()
                     {
                         if (event.key.code == sf::Keyboard::R)
                         {
+=======
+                        if (buttonPlay.getGlobalBounds().contains(mousePosF))
+                        {
+                            int mines = 15;
+
+                            if (currentDiff == Difficulty::Easy)
+                            {
+                                cols = 10;
+                                rows = 10;
+                                mines = 12; // Поправили количество мин для баланса
+                            }
+                            else if (currentDiff == Difficulty::Normal)
+                            {
+                                cols = 16;
+                                rows = 16;
+                                mines = 40;
+                            }
+                            else if (currentDiff == Difficulty::Hard)
+                            {
+                                cols = 30;
+                                rows = 16;
+                                mines = 99;
+                            }
+
+                            boardWidth = cols * cellSize;
+                            boardHeight = rows * cellSize;
+
+                            offsetX = (window.getSize().x - boardWidth) / 2.f;
+                            offsetY = (window.getSize().y - boardHeight) / 2.f;
+
+                            game = GameBoard(cols, rows, mines);
+                            view = Board(cols, rows, cellSize, offsetX, offsetY);
+                            firstClick = true;
+
+                            currentState = AppState::Gameplay;
+                        }
+                        else if (buttonSettings.getGlobalBounds().contains(mousePosF))   currentState = AppState::Settings;
+                        else if (buttonExit.getGlobalBounds().contains(mousePosF))       currentState = AppState::Exit;
+                    }
+                    break;
+                }
+
+                case AppState::Gameplay:
+                {
+                    if (event.type == sf::Event::KeyPressed)
+                    {
+                        if (event.key.code == sf::Keyboard::R)
+                        {
+>>>>>>> Stashed changes
                             game.reset();
                             firstClick = true;
                         }
@@ -471,26 +625,64 @@ int main()
                     }
                     break;
                 }
+<<<<<<< Updated upstream
                 case AppState::Settings:
                 {
                     if(sf::Event::KeyPressed)
                     {
                         if(event.key.code == sf::Keyboard::Escape)
+=======
+
+                case AppState::Settings:
+                {
+                    if (event.type == sf::Event::KeyPressed)
+                    {
+                        if (event.key.code == sf::Keyboard::Escape)
+>>>>>>> Stashed changes
                         {
                             currentState = AppState::MainMenu;
                         }
                     }
+<<<<<<< Updated upstream
                     window.draw(Setting_text);
                     
 
                 }
                 break;
+=======
+
+                    if (event.type == sf::Event::MouseButtonPressed)
+                    {
+                        if (event.mouseButton.button == sf::Mouse::Left)
+                        {
+                            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                            sf::Vector2f mousePosF = window.mapPixelToCoords(mousePos);
+
+                            if (boxEasy.getGlobalBounds().contains(mousePosF))
+                            {
+                                currentDiff = Difficulty::Easy;
+                            } 
+                            else if (boxNormal.getGlobalBounds().contains(mousePosF))
+                            {
+                                currentDiff = Difficulty::Normal;
+                            } 
+                            else if (boxHard.getGlobalBounds().contains(mousePosF))
+                            {
+                                currentDiff = Difficulty::Hard;
+                            }
+                        }
+                    }
+                    break;
+                }
+
+>>>>>>> Stashed changes
                 case AppState::Exit:
                     window.close();
                     break;
             }
         }
 
+<<<<<<< Updated upstream
         if (currentState == AppState::MainMenu)
                         {
                             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -531,7 +723,61 @@ int main()
                 window.draw(Setting_text);
         }
 
+=======
+        // Подсветка кнопок при наведении мыши
+        if (currentState == AppState::MainMenu)
+        {
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            sf::Vector2f mousePosF = window.mapPixelToCoords(mousePos);
 
+            if (buttonPlay.getGlobalBounds().contains(mousePosF))        buttonPlay.setFillColor(sf::Color(230, 230, 230));
+            else                                                         buttonPlay.setFillColor(sf::Color(200, 200, 200));
+>>>>>>> Stashed changes
+
+            if (buttonSettings.getGlobalBounds().contains(mousePosF))    buttonSettings.setFillColor(sf::Color(230, 230, 230));
+            else                                                         buttonSettings.setFillColor(sf::Color(200, 200, 200));
+
+            if (buttonExit.getGlobalBounds().contains(mousePosF))        buttonExit.setFillColor(sf::Color(230, 230, 230));
+            else                                                         buttonExit.setFillColor(sf::Color(200, 200, 200));
+        }
+
+        // Отрисовка кадра
+        window.clear(sf::Color(40, 40, 40));
+
+        switch (currentState)
+        {
+            case AppState::MainMenu:
+                window.draw(buttonPlay);
+                window.draw(textPlay);
+                window.draw(buttonSettings);
+                window.draw(textSettings);
+                window.draw(buttonExit);
+                window.draw(textExit);
+                break;
+
+            case AppState::Gameplay:
+                view.draw(window, game, font);
+                break;
+
+            case AppState::Settings:
+                boxEasy.setFillColor(sf::Color::Transparent);
+                boxNormal.setFillColor(sf::Color::Transparent);
+                boxHard.setFillColor(sf::Color::Transparent);
+
+                if (currentDiff == Difficulty::Easy)         boxEasy.setFillColor(sf::Color::White);
+                else if (currentDiff == Difficulty::Normal)   boxNormal.setFillColor(sf::Color::White);
+                else if (currentDiff == Difficulty::Hard)     boxHard.setFillColor(sf::Color::White);
+
+                window.draw(Setting_text);
+                window.draw(textDiff);
+                window.draw(textEasy);
+                window.draw(textNormal);
+                window.draw(textHard);
+                window.draw(boxEasy);
+                window.draw(boxNormal);
+                window.draw(boxHard);
+                break;
+        }
         window.display();
     }
 

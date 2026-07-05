@@ -429,6 +429,30 @@ libs/tmxlite/src/miniz.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\tmxlite.dir\build.make CMakeFiles/tmxlite.dir/libs/tmxlite/src/miniz.c.s
 .PHONY : libs/tmxlite/src/miniz.c.s
 
+src/Board.obj: src/Board.cpp.obj
+.PHONY : src/Board.obj
+
+# target to build an object file
+src/Board.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Game.dir\build.make CMakeFiles/Game.dir/src/Board.cpp.obj
+.PHONY : src/Board.cpp.obj
+
+src/Board.i: src/Board.cpp.i
+.PHONY : src/Board.i
+
+# target to preprocess a source file
+src/Board.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Game.dir\build.make CMakeFiles/Game.dir/src/Board.cpp.i
+.PHONY : src/Board.cpp.i
+
+src/Board.s: src/Board.cpp.s
+.PHONY : src/Board.s
+
+# target to generate assembly for a file
+src/Board.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Game.dir\build.make CMakeFiles/Game.dir/src/Board.cpp.s
+.PHONY : src/Board.cpp.s
+
 src/Game.obj: src/Game.cpp.obj
 .PHONY : src/Game.obj
 
@@ -452,6 +476,30 @@ src/Game.s: src/Game.cpp.s
 src/Game.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Game.dir\build.make CMakeFiles/Game.dir/src/Game.cpp.s
 .PHONY : src/Game.cpp.s
+
+src/GameBoard.obj: src/GameBoard.cpp.obj
+.PHONY : src/GameBoard.obj
+
+# target to build an object file
+src/GameBoard.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Game.dir\build.make CMakeFiles/Game.dir/src/GameBoard.cpp.obj
+.PHONY : src/GameBoard.cpp.obj
+
+src/GameBoard.i: src/GameBoard.cpp.i
+.PHONY : src/GameBoard.i
+
+# target to preprocess a source file
+src/GameBoard.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Game.dir\build.make CMakeFiles/Game.dir/src/GameBoard.cpp.i
+.PHONY : src/GameBoard.cpp.i
+
+src/GameBoard.s: src/GameBoard.cpp.s
+.PHONY : src/GameBoard.s
+
+# target to generate assembly for a file
+src/GameBoard.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Game.dir\build.make CMakeFiles/Game.dir/src/GameBoard.cpp.s
+.PHONY : src/GameBoard.cpp.s
 
 src/TMXLoader.obj: src/TMXLoader.cpp.obj
 .PHONY : src/TMXLoader.obj
@@ -547,9 +595,15 @@ help:
 	@echo ... libs/tmxlite/src/miniz.obj
 	@echo ... libs/tmxlite/src/miniz.i
 	@echo ... libs/tmxlite/src/miniz.s
+	@echo ... src/Board.obj
+	@echo ... src/Board.i
+	@echo ... src/Board.s
 	@echo ... src/Game.obj
 	@echo ... src/Game.i
 	@echo ... src/Game.s
+	@echo ... src/GameBoard.obj
+	@echo ... src/GameBoard.i
+	@echo ... src/GameBoard.s
 	@echo ... src/TMXLoader.obj
 	@echo ... src/TMXLoader.i
 	@echo ... src/TMXLoader.s

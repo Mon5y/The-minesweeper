@@ -1,6 +1,10 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Game.dir/src/Board.cpp.obj"
+  "CMakeFiles/Game.dir/src/Board.cpp.obj.d"
   "CMakeFiles/Game.dir/src/Game.cpp.obj"
   "CMakeFiles/Game.dir/src/Game.cpp.obj.d"
+  "CMakeFiles/Game.dir/src/GameBoard.cpp.obj"
+  "CMakeFiles/Game.dir/src/GameBoard.cpp.obj.d"
   "CMakeFiles/Game.dir/src/TMXLoader.cpp.obj"
   "CMakeFiles/Game.dir/src/TMXLoader.cpp.obj.d"
   "CMakeFiles/Game.dir/src/main.cpp.obj"

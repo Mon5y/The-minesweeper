@@ -8,7 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "C:/Users/grech/Desktop/_Game_/src/Board.cpp" "CMakeFiles/Game.dir/src/Board.cpp.obj" "gcc" "CMakeFiles/Game.dir/src/Board.cpp.obj.d"
   "C:/Users/grech/Desktop/_Game_/src/Game.cpp" "CMakeFiles/Game.dir/src/Game.cpp.obj" "gcc" "CMakeFiles/Game.dir/src/Game.cpp.obj.d"
+  "C:/Users/grech/Desktop/_Game_/src/GameBoard.cpp" "CMakeFiles/Game.dir/src/GameBoard.cpp.obj" "gcc" "CMakeFiles/Game.dir/src/GameBoard.cpp.obj.d"
   "C:/Users/grech/Desktop/_Game_/src/TMXLoader.cpp" "CMakeFiles/Game.dir/src/TMXLoader.cpp.obj" "gcc" "CMakeFiles/Game.dir/src/TMXLoader.cpp.obj.d"
   "C:/Users/grech/Desktop/_Game_/src/main.cpp" "CMakeFiles/Game.dir/src/main.cpp.obj" "gcc" "CMakeFiles/Game.dir/src/main.cpp.obj.d"
   )

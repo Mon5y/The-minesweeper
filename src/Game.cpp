@@ -7,7 +7,7 @@ Game::Game() : mWindow(sf::VideoMode(800, 600), "Undertale-like Game") {
     mWindow.setFramerateLimit(60);
     
     // Путь к карте
-    std::string mapPath = "assets/maps/level1.tmx";
+    std::string mapPath = "assets/maps/map_2.tmx";
     
     // Получение абсолютного пути для диагностики
     std::filesystem::path fullPath = std::filesystem::absolute(mapPath);
